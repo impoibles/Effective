@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Schema(description = "Сущность пользователя")
-@Entity @Table(name = "user")
+@Entity @Table(name = "users")
 public class User {
     @Schema(description = "Уникальный идентификатор пользователя", example = "1")
     @Id
@@ -28,11 +28,9 @@ public class User {
     private String middle_name;
 
     @Schema(description = "Карточки пользователя")
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "card_id")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) // Указываем связь
     private Set<Card> cards = new HashSet<>();
 
-    @Schema(description = "Роль пользователя", example = "user")
     @OneToOne
     @JoinColumn(name = "role_id")
     private Role role;

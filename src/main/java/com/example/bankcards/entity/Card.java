@@ -19,7 +19,7 @@ public class Card {
     @Column(name = "status", nullable = false)
     private String status;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "card_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
 

@@ -7,5 +7,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CardRepo extends JpaRepository<User, Long> {
-    public void createUser(User user);
 }
