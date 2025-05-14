@@ -13,7 +13,7 @@ public class Role {
 
 
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

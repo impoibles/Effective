@@ -30,7 +30,7 @@ public class UserController {
         @ApiResponse(responseCode = "200", description = "Пользователь добавлен")
     }
     )
-    @PostMapping()
+    @PostMapping("/")
     public User createUser(@RequestBody User user) {
         return userService.createUser(user);
     }
@@ -56,7 +56,7 @@ public class UserController {
                     @ApiResponse(responseCode = "404", description = "Пользователи не найдены")
             }
     )
-    @GetMapping()
+    @GetMapping("/")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }

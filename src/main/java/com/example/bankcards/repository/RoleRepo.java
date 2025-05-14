@@ -1,10 +1,11 @@
 package com.example.bankcards.repository;
 
 
-import com.example.bankcards.entity.Card;
+import com.example.bankcards.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CardRepo extends JpaRepository<Card, Long> {
+public interface RoleRepo extends JpaRepository<Role, Long> {
+    boolean existsByName(String name);
 }
