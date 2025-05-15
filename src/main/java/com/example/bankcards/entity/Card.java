@@ -3,7 +3,8 @@ package com.example.bankcards.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+
+
 
 @Entity @Table(name = "card")
 public class Card {
@@ -13,7 +14,7 @@ public class Card {
     @Column(name = "number", unique = true, nullable = false)
     private String number;
     @Column(name = "dateOut", nullable = false)
-    private Date date_out;
+    private String date_out;
     @Column(name = "balance", nullable = false)
     private int balance;
     @Column(name = "status", nullable = false)
@@ -21,6 +22,7 @@ public class Card {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
+
 
 
     public long getId() {
@@ -35,11 +37,11 @@ public class Card {
         this.number = number;
     }
 
-    public Date getDate_out() {
+    public String getDate_out() {
         return date_out;
     }
 
-    public void setDate_out(Date date_out) {
+    public void setDate_out(String date_out) {
         this.date_out = date_out;
     }
 

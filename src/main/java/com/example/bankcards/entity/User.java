@@ -27,13 +27,12 @@ public class User {
     @Column(name = "middleName", nullable = false)
     private String middle_name;
 
-    @Schema(description = "Карточки пользователя")
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) // Указываем связь
-    private Set<Card> cards = new HashSet<>();
 
-    @OneToOne
+
+    @ManyToOne()
     @JoinColumn(name = "role_id")
     private Role role;
+
 
 
     public Role getRole() {
@@ -44,13 +43,7 @@ public class User {
         this.role = role;
     }
 
-    public Set<Card> getCards() {
-        return cards;
-    }
 
-    public void setCards(Set<Card> cards) {
-        this.cards = cards;
-    }
 
     public long getId() {
         return id;

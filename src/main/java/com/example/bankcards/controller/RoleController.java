@@ -1,6 +1,8 @@
 package com.example.bankcards.controller;
 
 import com.example.bankcards.dto.RoleDTO;
+import com.example.bankcards.dto.UserDTO;
+import com.example.bankcards.entity.Role;
 import com.example.bankcards.service.RoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,15 +28,20 @@ public class RoleController {
 
     @PostMapping
     @Operation(summary = "Создать новую роль")
-    public ResponseEntity<RoleDTO.RoleResponse> createRole(@Valid @RequestBody RoleDTO.RoleRequest request) {
-        RoleDTO.RoleResponse response = roleService.createRole(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    public void createRole(@Valid @RequestBody RoleDTO.RoleRequest request) {
+        roleService.createRole(request);
+    }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "")
+    public void updateRole(@PathVariable Long id, @RequestBody RoleDTO.RoleRequest roleRequest) throws RoleNotFoundException {
+        roleService.updateRole(id, roleRequest);
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Получить роль по ID")
-    public ResponseEntity<RoleDTO.RoleResponse> getRole(@PathVariable Long id) throws RoleNotFoundException {
-        return ResponseEntity.ok(roleService.getRoleById(id));
+    public Role getRole(@PathVariable Long id) throws RoleNotFoundException {
+        return roleService.getRoleById(id);
     }
 
     @GetMapping

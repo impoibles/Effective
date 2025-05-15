@@ -24,23 +24,34 @@ public class CardService {
 
     private final CardRepo cardRepo;
     private final UserRepo userRepo;
-    private final CardMapper cardMapper;
+
     @Autowired
-    CardService(CardRepo cardRepo, UserRepo userRepo, CardMapper cardMapper){
+    CardService(CardRepo cardRepo, UserRepo userRepo){
         this.cardRepo=cardRepo;
         this.userRepo = userRepo;
-        this.cardMapper = cardMapper;
+
     }
 
     @Transactional
-    public CardDTO.CardResponse createCard(CardDTO.CardRequest request) {
-        Card card = cardMapper.toEntity(request); // Использование маппера
-        Card savedCard = cardRepo.save(card);
-        return cardMapper.toResponse(savedCard);
+    public Card createCard(CardDTO.CardRequest request) {
+        // Находим пользователя
+        User user = userRepo.findById(request.getUser_id())
+                .orElseThrow(() -> new UserNotFoundException("Пользователь не найден"));
+
+        // Создаем карту
+        Card card = new Card();
+        card.setNumber(request.getNumber());
+        card.setBalance(request.getBalance());
+        card.setDate_out(request.getDate_out());
+        card.setStatus(request.getStatus());
+        card.setUser(user); // Связываем с пользователем
+
+        return cardRepo.save(card);
     }
 
     @Transactional()
     public Card getCardById(Long id) {
+
         return cardRepo.findById(id)
                 .orElseThrow(() -> new CardNotFoundException("Card not found with id: " + id));
     }
@@ -53,13 +64,14 @@ public class CardService {
 
     // Update
     @Transactional
-    public Card updateCard(Long id, Card updatedCard) {
+    public Card updateCard(Long id,CardDTO.CardRequest cardRequest) {
+
         Card existingCard = getCardById(id);
-        existingCard.setNumber(updatedCard.getNumber());
-        existingCard.setStatus(updatedCard.getStatus());
-        existingCard.setDate_out(updatedCard.getDate_out());
-        existingCard.setBalance(updatedCard.getBalance());
-        existingCard.setUser(existingCard.getUser());
+        existingCard.setNumber(cardRequest.getNumber());
+        existingCard.setStatus(cardRequest.getStatus());
+        existingCard.setDate_out(cardRequest.getDate_out());
+        existingCard.setBalance(cardRequest.getBalance());
+
 
         return cardRepo.save(existingCard);
     }
@@ -77,9 +89,7 @@ public class CardService {
                 .orElseThrow(() -> new CardNotFoundException("Карта получателя не найдена"));
 
         // Проверяем, что карты принадлежат одному пользователю
-        if (fromCard.getUser().getId()!=(toCard.getUser().getId())) {
-            throw new TransferException("Карты принадлежат разным пользователям");
-        }
+
 
         // Проверяем достаточность средств
         if (fromCard.getBalance() - request.getAmount() < 0) {

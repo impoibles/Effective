@@ -1,33 +1,74 @@
 package com.example.bankcards.dto;
 
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.NoArgsConstructor;
 
+
+
 public class CardDTO {
+
+
+
+
     @NoArgsConstructor
     public static class CardRequest {
-        @NotNull(message = "ID пользователя обязательно")
-        private Long userId;
 
+
+        @NotNull
+        private String number;
         @Positive(message = "Баланс должен быть положительным")
-        private int initialBalance;
+        private int balance;
+        @NotNull(message = "Дата")
+        private String date_out;
+        @NotNull(message = "Cтатус карты")
+        private String status;
+        @NotNull(message = "user_id")
+        private  Long user_id;
 
-        public Long getUserId() {
-            return userId;
+
+        public String getNumber() {
+            return number;
         }
 
-        public void setUserId(Long userId) {
-            this.userId = userId;
+        public void setNumber(String number) {
+            this.number = number;
         }
 
-        public int getInitialBalance() {
-            return initialBalance;
+        public Long getUser_id() {
+            return user_id;
         }
 
-        public void setInitialBalance(int initialBalance) {
-            this.initialBalance = initialBalance;
+        public void setUser_id(Long user_id) {
+            this.user_id = user_id;
         }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
+        public String getDate_out() {
+            return date_out;
+        }
+
+        public void setDate_out(String date_out) {
+            this.date_out = date_out;
+        }
+
+        public int getBalance() {
+            return balance;
+        }
+
+        public void setBalance(int initialBalance) {
+            this.balance = initialBalance;
+        }
+
+
     }
 
     @NoArgsConstructor
@@ -35,7 +76,16 @@ public class CardDTO {
         private Long id;
         private String cardNumber;
         private int balance;
-        private String ownerName;
+        private String date_out;
+
+
+        public String getDate_out() {
+            return date_out;
+        }
+
+        public void setDate_out(String date_out) {
+            this.date_out = date_out;
+        }
 
         public Long getId() {
             return id;
@@ -59,14 +109,6 @@ public class CardDTO {
 
         public void setBalance(int balance) {
             this.balance = balance;
-        }
-
-        public String getOwnerName() {
-            return ownerName;
-        }
-
-        public void setOwnerName(String ownerName) {
-            this.ownerName = ownerName;
         }
     }
 }

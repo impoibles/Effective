@@ -1,5 +1,6 @@
 package com.example.bankcards.controller;
 
+import com.example.bankcards.dto.UserDTO;
 import com.example.bankcards.entity.User;
 import com.example.bankcards.exception.UserNotFoundException;
 import com.example.bankcards.service.UserService;
@@ -31,8 +32,8 @@ public class UserController {
     }
     )
     @PostMapping("/")
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
+    public void createUser(@RequestBody UserDTO.UserRequest userRequest) {
+        userService.createUser(userRequest);
     }
 
     @Operation(
@@ -70,8 +71,8 @@ public class UserController {
             }
     )
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User user) {
-        return userService.updateUser(id, user);
+    public User updateUser(@PathVariable Long id, @RequestBody UserDTO.UserRequest userRequest) {
+        return userService.updateUser(id, userRequest);
     }
 
     @Operation(

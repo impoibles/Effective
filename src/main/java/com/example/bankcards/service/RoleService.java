@@ -29,22 +29,28 @@ public class RoleService {
 
     // Создание роли
     @Transactional
-    public RoleDTO.RoleResponse createRole(RoleDTO.RoleRequest request) {
+    public void createRole(RoleDTO.RoleRequest request) {
         if (roleRepository.existsByName(request.getName())) {
             throw new RoleAlreadyExistsException("Роль '" + request.getName() + "' уже существует");
         }
 
-        Role role = roleMapper.toEntity(request);
-        Role savedRole = roleRepository.save(role);
-        return roleMapper.toResponse(savedRole);
+        Role role = new Role();
+        role.setName(request.getName());
+        roleRepository.save(role);
+    }
+
+    @Transactional
+    public void updateRole(Long id, RoleDTO.RoleRequest roleRequest) throws RoleNotFoundException {
+        Role existing_role = getRoleById(id);
+        existing_role.setName(roleRequest.getName());
+        roleRepository.save(existing_role);
     }
 
     // Получение роли по ID
     @Transactional()
-    public RoleDTO.RoleResponse getRoleById(Long id) throws RoleNotFoundException {
-        Role role = roleRepository.findById(id)
+    public Role getRoleById(Long id) throws RoleNotFoundException {
+        return roleRepository.findById(id)
                 .orElseThrow(() -> new RoleNotFoundException("Роль не найдена"));
-        return roleMapper.toResponse(role);
     }
 
     // Получение всех ролей

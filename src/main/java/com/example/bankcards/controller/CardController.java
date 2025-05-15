@@ -50,11 +50,10 @@ public class CardController {
             }
     )
     @PostMapping("/")
-    public ResponseEntity<CardDTO.CardResponse> createCard(
+    public void createCard(
             @Valid @RequestBody CardDTO.CardRequest cardRequest
     ) {
-        CardDTO.CardResponse createdCard = cardService.createCard(cardRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdCard);
+        Card createdCard = cardService.createCard(cardRequest);
     }
 
     @Operation(
@@ -92,8 +91,8 @@ public class CardController {
             }
     )
     @PutMapping("/{id}")
-    public Card updateCard(@PathVariable Long id, @RequestBody Card card) {
-        return cardService.updateCard(id, card);
+    public Card updateCard(@PathVariable Long id, @RequestBody CardDTO.CardRequest cardRequest) {
+        return cardService.updateCard(id, cardRequest);
     }
 
     @Operation(
