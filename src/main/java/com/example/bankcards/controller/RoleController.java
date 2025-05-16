@@ -46,8 +46,8 @@ public class RoleController {
 
     @GetMapping
     @Operation(summary = "Получить все роли")
-    public ResponseEntity<List<RoleDTO.RoleResponse>> getAllRoles() {
-        return ResponseEntity.ok(roleService.getAllRoles());
+    public List<Role> getAllRoles() {
+        return roleService.getAllRoles();
     }
 
     @DeleteMapping("/{id}")

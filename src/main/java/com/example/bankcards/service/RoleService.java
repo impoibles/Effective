@@ -6,7 +6,7 @@ import com.example.bankcards.entity.Card;
 import com.example.bankcards.entity.Role;
 import com.example.bankcards.exception.CardNotFoundException;
 import com.example.bankcards.exception.RoleAlreadyExistsException;
-import com.example.bankcards.mapper.RoleMapper;
+
 import com.example.bankcards.repository.RoleRepo;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +19,11 @@ import java.util.stream.Collectors;
 @Service
 public class RoleService {
     private final RoleRepo roleRepository;
-    private final RoleMapper roleMapper;
+
 
     @Autowired
-    public RoleService(RoleRepo roleRepository, RoleMapper roleMapper) {
+    public RoleService(RoleRepo roleRepository) {
         this.roleRepository = roleRepository;
-        this.roleMapper = roleMapper;
     }
 
     // Создание роли
@@ -55,11 +54,8 @@ public class RoleService {
 
     // Получение всех ролей
     @Transactional()
-    public List<RoleDTO.RoleResponse> getAllRoles() {
-        return roleRepository.findAll()
-                .stream()
-                .map(roleMapper::toResponse)
-                .collect(Collectors.toList());
+    public List<Role> getAllRoles() {
+        return roleRepository.findAll();
     }
 
     // Удаление роли

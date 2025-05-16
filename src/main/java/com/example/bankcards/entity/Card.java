@@ -3,27 +3,41 @@ package com.example.bankcards.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 
 
 
 @Entity @Table(name = "card")
-public class Card {
+public class Card implements Cloneable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "number", unique = true, nullable = false)
     private String number;
     @Column(name = "dateOut", nullable = false)
-    private String date_out;
+    private LocalDate date_out;
     @Column(name = "balance", nullable = false)
     private int balance;
-    @Column(name = "status", nullable = false)
-    private String status;
+    @ManyToOne
+    @JoinColumn(name = "status_id")
+    private CardStatus status;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
 
 
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+    public CardStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(CardStatus status) {
+        this.status = status;
+    }
 
     public long getId() {
         return id;
@@ -37,11 +51,11 @@ public class Card {
         this.number = number;
     }
 
-    public String getDate_out() {
+    public LocalDate getDate_out() {
         return date_out;
     }
 
-    public void setDate_out(String date_out) {
+    public void setDate_out(LocalDate date_out) {
         this.date_out = date_out;
     }
 
@@ -51,14 +65,6 @@ public class Card {
 
     public void setBalance(int balance) {
         this.balance = balance;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public User getUser() {

@@ -33,7 +33,8 @@ public class CardController {
             description = "Переводит деньги с одной карты на другую",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Перевод прошел"),
-                    @ApiResponse(responseCode = "404", description = "Карта не найдена")
+                    @ApiResponse(responseCode = "404", description = "Карта не найдена"),
+                    @ApiResponse(responseCode = "500", description = "Недостаточно средств")
             }
     )
     @PostMapping("/transfer")
@@ -78,7 +79,7 @@ public class CardController {
             }
     )
     @GetMapping("/")
-    public List<Card> getAllCards() {
+    public List<Card> getAllCards() throws CloneNotSupportedException {
         return cardService.getAllCards();
     }
 
@@ -109,7 +110,7 @@ public class CardController {
     }
 
     // Обработка исключения
-    @ExceptionHandler(UserNotFoundException.class)
+    @ExceptionHandler(CardNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleCardNotFound(CardNotFoundException ex) {
         return ex.getMessage();
